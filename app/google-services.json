@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1003599565378",
+    "firebase_url": "https://simple-communicator.firebaseio.com",
+    "project_id": "simple-communicator",
+    "storage_bucket": "simple-communicator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003599565378:android:aab580ed9255afdb8c53db",
+        "android_client_info": {
+          "package_name": "pl.curlycode.simplecommunicator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1003599565378-imiaa2632lfil76e3i6c3eg65qvt6e1u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.curlycode.simplecommunicator",
+            "certificate_hash": "11b2d5f476259b389a5a79035957d9c08750d309"
+          }
+        },
+        {
+          "client_id": "1003599565378-n7bam26oj47hdq0jjbla49l002tt90pa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqkWvd1zohY0zD-NyCztYu8rtdFUO8yQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1003599565378-n7bam26oj47hdq0jjbla49l002tt90pa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
