@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -41,21 +42,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         final String login = editTextLogin.getText().toString();
         final String password = editTextPassword.getText().toString();
-        if (editTextLogin.getText().toString().trim().length() > 0 && editTextPassword.getText().toString().trim().length() > 0) {
+        if (login.trim().length() > 0 && password.trim().length() > 0) {
             firebaseAuth.signInWithEmailAndPassword(login, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        Log.d(TAG, "onComplete: ");
+                        Log.d(TAG, "onComplete success: ");
+                        userLoggedIn(login);
                     } else {
-                        Toast.makeText(LoginActivity.this, "Error: " + task.getException(), Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "onComplete: ");
+                        Toast.makeText(LoginActivity.this, "Error: " + task.getException(), Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onComplete fail: ");
                         if (task.getException().getMessage().contains("There is no user record corresponding to this identifier. The user may have been deleted.")) {
                             firebaseAuth.createUserWithEmailAndPassword(login, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
-                                    Log.d(TAG, "onComplete");
-                                    userLoggedIn();
+                                    Log.d(TAG, "onComplete: ");
+                                    if (task.isSuccessful()) {
+                                        userLoggedIn(login);
+                                    }
                                 }
                             });
                         }
@@ -65,7 +69,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void userLoggedIn() {
+    private void userLoggedIn(String email) {
+        FirebaseDatabase.getInstance().getReference("users").child(email).setValue(new Person(email, firebaseAuth.getCurrentUser().getUid())).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d(TAG, "onComplete: ");
+            }
+        });
         Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
         LoginActivity.this.startActivity(intent);
         LoginActivity.this.finish();
