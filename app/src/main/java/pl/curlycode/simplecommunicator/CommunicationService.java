@@ -22,12 +22,13 @@ public class CommunicationService extends Service {
             return super.onStartCommand(intent, flags, startId);
         }
         final String receiver = intent.getStringExtra("receiver");
+        final String message = intent.getStringExtra("message");
         FirebaseDatabase.getInstance().getReference("users").child(receiver).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d(TAG, "onDataChange: ");
                 if (dataSnapshot.exists()) {
-                    FirebaseDatabase.getInstance().getReference("communications").child(receiver).push().setValue(new Communicator(receiver));
+                    FirebaseDatabase.getInstance().getReference("communications").child(receiver).push().setValue(new Communicator(receiver, message));
                 }
             }
 

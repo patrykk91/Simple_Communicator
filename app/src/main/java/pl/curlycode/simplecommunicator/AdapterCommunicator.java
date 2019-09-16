@@ -1,6 +1,5 @@
 package pl.curlycode.simplecommunicator;
 
-import android.service.autofill.TextValueSanitizer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,8 @@ public class AdapterCommunicator extends RecyclerView.Adapter<AdapterCommunicato
     @Override
     public void onBindViewHolder(@NonNull CommunicationHolder holder, int position) {
         Communicator communicator = communications.get(position);
-        holder.textTitle.setText(communicator.senderName);
+        holder.textUser.setText(communicator.senderName);
+        holder.textMessage.setText(communicator.message);
     }
 
     @Override
@@ -33,12 +33,14 @@ public class AdapterCommunicator extends RecyclerView.Adapter<AdapterCommunicato
     }
 
     public class CommunicationHolder extends RecyclerView.ViewHolder {
-        public TextView textTitle;
-
+        public TextView textUser;
+        public TextView textMessage;
 
         public CommunicationHolder(@NonNull View itemView) {
             super(itemView);
-            textTitle = itemView.findViewById(R.id.textTitleCommunication);
+            textUser = itemView.findViewById(R.id.textUserCommunication);
+            textMessage = itemView.findViewById(R.id.textMessageCommunication);
+
         }
     }
 }

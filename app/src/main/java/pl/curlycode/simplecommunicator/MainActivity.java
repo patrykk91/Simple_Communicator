@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     AdapterCommunicator adapterCommunicator;
     EditText editText;
-    TextView localUsetTextView;
+    EditText editTextMessage;
+    TextView localUserTextView;
     FloatingActionButton buttonSend;
     RecyclerView recyclerView;
     DatabaseReference reference;
@@ -42,8 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         buttonSend = findViewById(R.id.buttonSend);
-        editText = findViewById(R.id.editTextMessage);
-        localUsetTextView = findViewById(R.id.localUser);
+        editText = findViewById(R.id.editTextSend);
+        editTextMessage = findViewById(R.id.editTextMessageContent);
+        localUserTextView = findViewById(R.id.localUser);
         recyclerView = findViewById(R.id.recyclerCommunicator);
 
         adapterCommunicator = new AdapterCommunicator();
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startLoginActivity();
         } else {
-            localUsetTextView.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0]);
+            localUserTextView.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0]);
             reference = FirebaseDatabase.getInstance().getReference("communications").child(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0]);
             reference.addChildEventListener(this);
         }
@@ -101,9 +103,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         Log.d(TAG, "onClick: ");
         String receiver = editText.getText().toString().trim();
+        String message = editTextMessage.getText().toString();
+
         if (receiver.length() > 0) {
             Intent serviceIntent = new Intent(MainActivity.this, CommunicationService.class);
             serviceIntent.putExtra("receiver", receiver);
+            serviceIntent.putExtra("message", message);
+
             startService(serviceIntent);
         }
     }

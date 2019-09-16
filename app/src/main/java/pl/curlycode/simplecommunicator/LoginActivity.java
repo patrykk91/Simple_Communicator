@@ -70,13 +70,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void userLoggedIn(String email) {
-        FirebaseDatabase.getInstance().getReference("users").child(email).setValue(new Person(email, firebaseAuth.getCurrentUser().getUid())).addOnCompleteListener(new OnCompleteListener<Void>() {
+        String name = email.split("@")[0];
+        FirebaseDatabase.getInstance().getReference("users").child(name).setValue(new Person(name, firebaseAuth.getCurrentUser().getUid())).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Log.d(TAG, "onComplete: ");
             }
         });
-        Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         LoginActivity.this.startActivity(intent);
         LoginActivity.this.finish();
     }
